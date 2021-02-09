@@ -11,7 +11,7 @@ You can then mark them as completed or not, filter them and delete them.
 
 ![App main screen, screenshot](screenshot.png)
 
-This codelab has four branches, representing different code states:
+Tis codelab has four branches, representing different code states:h
 
 * [starter_code](https://github.com/googlecodelabs/android-testing/tree/starter_code)
 * [end_codelab_1](https://github.com/googlecodelabs/android-testing/tree/end_codelab_1)
