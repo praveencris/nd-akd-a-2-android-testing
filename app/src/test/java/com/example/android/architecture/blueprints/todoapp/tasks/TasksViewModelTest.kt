@@ -8,8 +8,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.android.architecture.blueprints.todoapp.getOrAwaitValue
-import org.hamcrest.CoreMatchers.not
-import org.hamcrest.CoreMatchers.nullValue
+import org.hamcrest.CoreMatchers.*
 import org.junit.Rule
 
 @RunWith(AndroidJUnit4::class)
@@ -45,7 +44,7 @@ class TasksViewModelTest {
         //THEN
         val value= tasksViewModel.tasksAddViewVisible.getOrAwaitValue()
 
-       assertEquals(value,  true)
+       assertThat(value,  `is`(true))
 
     }
 
