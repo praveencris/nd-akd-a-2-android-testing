@@ -33,4 +33,20 @@ class TasksViewModelTest {
     }
 
 
+    @Test
+    fun setFilterAllTasks_tasksAddViewVisible(){
+        //GIVEN
+        val tasksViewModel = TasksViewModel(ApplicationProvider.getApplicationContext())
+
+
+        // WHEN
+        tasksViewModel.setFiltering(TasksFilterType.ALL_TASKS)
+
+        //THEN
+        val value= tasksViewModel.tasksAddViewVisible.getOrAwaitValue()
+
+       assertEquals(value,  true)
+
+    }
+
 }
