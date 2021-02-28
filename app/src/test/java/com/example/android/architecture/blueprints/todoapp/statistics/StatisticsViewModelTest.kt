@@ -12,13 +12,13 @@ import org.junit.Rule
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
-class StatisticsViewModelTest{
+class StatisticsViewModelTest {
 
     @get:Rule
-    val instanceTaskExecutorRule=InstantTaskExecutorRule()
+    val instanceTaskExecutorRule = InstantTaskExecutorRule()
 
     @get:Rule
-    val mainCoroutineRule=MainCoroutineRule()
+    val mainCoroutineRule = MainCoroutineRule()
 
 
     //Subject under test
@@ -31,11 +31,11 @@ class StatisticsViewModelTest{
     //Create a @Before method that sets up the subject under test and dependencies.
 
     @Before
-    fun setupStatisticsViewModel(){
+    fun setupStatisticsViewModel() {
         // Initialize the repository with no tasks.
-        tasksRepository= FakeTestRepository()
+        tasksRepository = FakeTestRepository()
 
-        statisticsViewModel= StatisticsViewModel(tasksRepository)
+        statisticsViewModel = StatisticsViewModel(tasksRepository)
     }
 
 
@@ -49,7 +49,7 @@ class StatisticsViewModelTest{
         statisticsViewModel.refresh()
 
         // Then progress indicator is shown.
-        assertThat(statisticsViewModel.dataLoading.getOrAwaitValue(),`is` (true))
+        assertThat(statisticsViewModel.dataLoading.getOrAwaitValue(), `is`(true))
 
         // Execute pending coroutines actions.
         mainCoroutineRule.resumeDispatcher()
@@ -57,6 +57,18 @@ class StatisticsViewModelTest{
         // Then progress indicator is hidden.
         assertThat(statisticsViewModel.dataLoading.getOrAwaitValue(), `is`(false))
 
+    }
+
+
+    @Test
+    fun loadStatisticsWhenTasksAreUnavailable_callErrorToDisplay() {
+        // Make the repository return errors.
+        tasksRepository.setReturnError(true)
+        statisticsViewModel.refresh()
+
+        // Then empty and error are true (which triggers an error message to be shown).
+        assertThat(statisticsViewModel.empty.getOrAwaitValue(), `is`(true))
+        assertThat(statisticsViewModel.error.getOrAwaitValue(), `is`(true))
     }
 
 }
