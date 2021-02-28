@@ -64,5 +64,30 @@ private lateinit var repository: TasksRepository
 
     }
 
+    @Test
+    fun completedTaskDetails_DisplayedInUi() = runBlockingTest{
+        // GIVEN - Add completed task to the DB
+        val completedTask = Task("Completed Task", "AndroidX Rocking", true)
+        repository.saveTask(completedTask)
+
+        // WHEN - Details fragment launched to display task
+        val bundle = TaskDetailFragmentArgs(completedTask.id).toBundle()
+        launchFragmentInContainer<TaskDetailFragment>(bundle, R.style.AppTheme)
+
+        // THEN - Task details are displayed on the screen
+        // make sure that the title/description are both shown and correct
+
+        onView(withId(R.id.task_detail_title_text)).check(matches(isDisplayed()))
+        onView(withId(R.id.task_detail_title_text)).check(matches(withText("Completed Task")))
+
+        onView(withId(R.id.task_detail_description_text)).check(matches(isDisplayed()))
+        onView(withId(R.id.task_detail_description_text)).check(matches(withText("AndroidX Rocking")))
+
+        // and make sure the "active" checkbox is shown unchecked
+        onView(withId(R.id.task_detail_complete_checkbox)).check(matches(isChecked()))
+        onView(withId(R.id.task_detail_complete_checkbox)).check(matches(isDisplayed()))
+
+    }
+
 
 }
