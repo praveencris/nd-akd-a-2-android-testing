@@ -2,6 +2,7 @@ package com.example.android.architecture.blueprints.todoapp.tasks
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.android.architecture.blueprints.todoapp.Event
+import com.example.android.architecture.blueprints.todoapp.MainCoroutineRule
 import com.example.android.architecture.blueprints.todoapp.R
 import org.junit.Assert.*
 import org.junit.Test
@@ -22,18 +23,8 @@ import org.junit.Rule
 @ExperimentalCoroutinesApi
 class TasksViewModelTest {
 
-    val testDispatcher = TestCoroutineDispatcher()
-
-    @Before
-    fun setupDispatcher() {
-        Dispatchers.setMain(testDispatcher)
-    }
-
-    @After
-    fun tearDownDispatcher() {
-        Dispatchers.resetMain()
-        testDispatcher.cleanupTestCoroutines()
-    }
+    @get:Rule
+    var mainCoroutineRule = MainCoroutineRule()
 
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
@@ -44,8 +35,6 @@ class TasksViewModelTest {
     private lateinit var testRepository: FakeTestRepository
 
     // Rest of class
-
-
     @Before
     fun setupViewModel() {
         testRepository = FakeTestRepository()
@@ -87,7 +76,7 @@ class TasksViewModelTest {
 
 
     @Test
-    fun completeTask_dataAndSnackbarUpdated()= runBlockingTest{
+    fun completeTask_dataAndSnackbarUpdated() = runBlockingTest {
         // Create an active task and add it to the repository.
         val task = Task("Title", "Description")
 
